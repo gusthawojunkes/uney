@@ -64,6 +64,8 @@ export default {
           to: '/inspire'
         }
       ],
+      clipped: false,
+      miniVariant: false
     }
   }
 }
