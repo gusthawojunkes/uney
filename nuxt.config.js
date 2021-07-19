@@ -3,10 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   ssr: false,
   head: {
-    titleTemplate: '%s - uney',
-    title: 'uney',
+    titleTemplate: '%s',
+    title: 'Uney',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'pt-br'
     },
     meta: [
       { charset: 'utf-8' },
