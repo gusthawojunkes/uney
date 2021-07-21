@@ -61,7 +61,7 @@ export default {
         {
           icon: 'mdi-account',
           title: 'Conta',
-          to: '/inspire'
+          to: '/account'
         }
       ],
       clipped: false,
