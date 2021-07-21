@@ -26,17 +26,25 @@ export default {
     data: () => ({
       username: '',
       password: '',
+      authenticated: false,
+      user: {}
     }),
-    methods: {
-        async login() {
-           await this.$axios.$post('/login').then((response) => {
-               
-           }).catch((err) => {
-               console.error(err)
-           }).finally(() => {
 
-           })
-        }
+    methods: {
+      login() {
+
+        this.$axios.$post('/login')
+        .then((response) => {
+          this.user = response.data;
+        }).catch((err) => {
+          return err.message;
+        }).finally(() => {
+          setTimeout(() => {
+            this.authenticated = true;
+          }, 500);
+        })
+
+      }
     }
 }
 </script>
