@@ -5,16 +5,9 @@
 <script>
 export default {
     layout: 'auth',
-    data: () => ({
-      username: '',
-      password: '',
-      authenticated: false,
-      user: {}
-    }),
 
     methods: {
       login() {
-
         this.$axios.$post('/login')
         .then((response) => {
           this.user = response.data;

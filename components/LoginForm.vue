@@ -2,12 +2,12 @@
      <v-container fluid fill-height>
         <form>
             <v-text-field
-                v-model="username"
+                v-model="form.username"
                 label="Usuário"
             >
             </v-text-field>
             <v-text-field
-                v-model="password"
+                v-model="form.password"
                 label="Senha"
             >
             </v-text-field>
@@ -27,8 +27,8 @@
 export default {
     data: () => ({
       form: {
-        username: 'root',
-        password: 'root',
+        username: '',
+        password: '',
       },
       authenticated: false,
       user: {}
@@ -36,7 +36,6 @@ export default {
 
     methods: {
       login() {
-
         this.$axios.$post('/login', this.form)
         .then((response) => {
           this.user = response.data;
