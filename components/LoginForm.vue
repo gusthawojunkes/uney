@@ -1,8 +1,6 @@
 <template>
-  <v-row align="center">
-    <v-card 
-      elevation="12"
-    >
+  <v-row>
+    <v-card elevation="12">
       <v-form v-model="valid">
         <v-container fluid>
           <v-card-title>

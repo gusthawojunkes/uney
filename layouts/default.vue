@@ -7,42 +7,25 @@
       fixed
       app
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <Navbar :nav-items="navItems"/>
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="clipped"
+      color="#63FFAC"
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <div v-if="useFooter">
+      <Footer />
+    </div>
+    
   </v-app>
 </template>
 
@@ -51,8 +34,8 @@ export default {
   data () {
     return {
       drawer: false,
-      fixed: false,
-      items: [
+      useFooter: false,
+      navItems: [
         {
           icon: 'mdi-apps',
           title: 'Dashboard',
