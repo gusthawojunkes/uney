@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>Bem-vindo(a) à {{ brand }}</h1>
-  </div>
+  <Dashboard />
 </template>
 
 <script>

@@ -24,11 +24,13 @@
         <v-list
             dense
             nav
+            shaped
         >
             <v-list-item
                 v-for="item in navItems"
                 :key="item.title"
                 link
+                :to="item.to"
             >
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>

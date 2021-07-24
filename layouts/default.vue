@@ -11,11 +11,23 @@
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="clipped"
-      color="#63FFAC"
+      color="#2ed37b"
       fixed
       app
     >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+    <div>
+      {{ brand }}
+    </div>
+
+    <v-spacer></v-spacer>
+    <div>
+      <v-btn icon>
+        <v-icon>mdi-exit-to-app</v-icon>
+      </v-btn>
+    </div>
+    
+
     </v-app-bar>
     <v-main>
       <v-container>
@@ -33,6 +45,7 @@
 export default {
   data () {
     return {
+      brand: 'Uney',
       drawer: false,
       useFooter: false,
       navItems: [
@@ -45,7 +58,7 @@ export default {
           icon: 'mdi-account',
           title: 'Conta',
           to: '/account'
-        }
+        },
       ],
       clipped: false,
       miniVariant: false
