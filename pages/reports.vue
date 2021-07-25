@@ -1,17 +1,24 @@
 <template>
-    <v-data-table
-        :headers="headers"
-        :items="accountData"
-        loading="accountData"
-        loading-text="Carregando..."
-        :items-per-page="10"
-        class="elevation-1"
-    ></v-data-table>
+    <div>
+        <v-data-table
+            v-if="accountData.length"
+            :headers="headers"
+            :items="accountData"
+            loading="accountData"
+            loading-text="Carregando..."
+            :items-per-page="10"
+            class="elevation-1"
+        ></v-data-table>
+        <div v-else>
+            Sem resultados
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
     data: () => ({
+        loading: null,
         headers: [
             {
                 text: 'Data',
@@ -46,6 +53,8 @@ export default {
                 this.prepare(response);
             }).catch((err) => {
                 this.error = err;
+            }).finally(() => {
+                this.loading = false;
             })
         },
         prepare(data) {
