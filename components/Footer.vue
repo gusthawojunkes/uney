@@ -8,11 +8,9 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            fixed: false,
-        }
-    }
-}
+  export default {
+    data: () => ({
+      fixed: false,
+    })       
+  }
 </script>

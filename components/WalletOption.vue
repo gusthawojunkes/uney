@@ -1,0 +1,20 @@
+<template>
+    <v-card
+        class="pa-2"
+        elevation="10"
+        tile
+    >
+        <v-card-title>
+            Carteira
+        </v-card-title>
+        <v-card-actions 
+            class="d-flex justify-end"
+        >
+            <v-btn
+                to="/wallet"
+            >
+                Movimentar
+            </v-btn>
+        </v-card-actions>
+    </v-card>
+</template>

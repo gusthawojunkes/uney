@@ -26,12 +26,16 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment',
   ],
   modules: [
     '@nuxtjs/axios',
   ],
   axios: {
     baseURL: 'http://localhost:5000'
+  },
+  moment: {
+    deafaultLocale: 'pt-br'
   },
   vuetify: {
     customVariables: ['~/assets/variables.scss'],

@@ -54,13 +54,11 @@
             required: true
         }
     },
-    data () {
-      return {
+    data: () => ({
         username: 'Junkes',
         balance: null,
         avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
         right: null,
-      }
-    },
+    }),
   }
 </script>

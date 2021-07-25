@@ -4,13 +4,9 @@
 
 <script>
 export default {
-
-  data() {
-    return {
+  data: () => ({
       brand: 'Uney',
       users: [],
-    }
-  },
-
+  })
 }
 </script>
