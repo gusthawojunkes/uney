@@ -10,7 +10,7 @@
             class="elevation-1"
         ></v-data-table>
         <div v-else>
-            Sem resultados
+            <NoData />
         </div>
     </div>
 </template>
