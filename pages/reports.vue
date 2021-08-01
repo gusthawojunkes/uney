@@ -1,18 +1,41 @@
 <template>
-    <div>
-        <v-data-table
-            v-if="accountData.length"
-            :headers="headers"
-            :items="accountData"
-            loading="accountData"
-            loading-text="Carregando..."
-            :items-per-page="10"
-            class="elevation-1"
-        ></v-data-table>
-        <div v-else>
-            <NoData />
-        </div>
-    </div>
+    <v-container>
+        <v-row>
+            <v-col cols="3">
+                <v-combobox
+                    v-model="selectedOperation"
+                    :items="operationsToSelect"
+                    label="Operação"
+                    clearable
+                    outlined
+                    dense
+                ></v-combobox>
+            </v-col>
+            <!-- <v-spacer></v-spacer> -->
+            <v-col >
+                <v-btn>
+                    <span>Filtrar</span>
+                    <v-icon small>mdi-filter</v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col v-if="accountData.length">
+                <v-data-table
+                    :headers="headers"
+                    :items="accountData"
+                    loading="accountData"
+                    loading-text="Carregando..."
+                    :items-per-page="10"
+                    class="elevation-1"
+                ></v-data-table>
+            </v-col>
+            <v-col v-else>
+                <NoData />
+            </v-col>
+        </v-row>
+    </v-container>
+    
 </template>
 
 <script>
@@ -20,34 +43,22 @@ export default {
     data: () => ({
         loading: null,
         headers: [
-            {
-                text: 'Data',
-                value: 'date',
-            },
-            {
-                text: 'Descrição',
-                value: 'description',
-                sortable: false,
-            },
-            {
-                text: 'Valor',
-                value: 'value',
-            },
-            {
-                text: 'Operação',
-                value: 'operation',
-                sortable: false,
-            }
+            { text: 'Data',      value: 'date' },
+            { text: 'Descrição', value: 'description', sortable: false },
+            { text: 'Valor',     value: 'value' },
+            { text: 'Operação',  value: 'operation',   sortable: false }
         ],
-        accountData: []
+        accountData: [],
+        selectedOperation: [],
+        operationsToSelect: [ 'Crédito', 'Débito' ],
     }),
 
     mounted() {
-        this.getReports()
+        this.getReports();
     },
 
     methods: {
-        getReports() {
+        getReports(_params = null) {
             this.$axios.$get('/historic')
             .then((response) => {
                 this.prepare(response);

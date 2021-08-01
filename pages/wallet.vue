@@ -11,6 +11,7 @@
 
             <v-col xs="12" sm="10" md="5" lg="5">
                 <v-card
+                    v-ripple
                     elevation="10"
                     class="text-center"
                 >
@@ -27,6 +28,7 @@
             
             <v-col xs="12" sm="10" md="5" lg="5">
                 <v-card
+                    v-ripple
                     elevation="10"
                     class="text-center"
                 >
