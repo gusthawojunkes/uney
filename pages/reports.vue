@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row v-if="!inProgress">
             <v-col cols="3">
                 <v-combobox
                     v-model="selectedOperation"
@@ -10,13 +10,6 @@
                     outlined
                     dense
                 ></v-combobox>
-            </v-col>
-            <!-- <v-spacer></v-spacer> -->
-            <v-col >
-                <v-btn>
-                    <span>Filtrar</span>
-                    <v-icon small>mdi-filter</v-icon>
-                </v-btn>
             </v-col>
         </v-row>
         <v-row>
@@ -43,15 +36,22 @@ export default {
     data: () => ({
         loading: null,
         headers: [
-            { text: 'Data',      value: 'date' },
+            { text: 'Data',      value: 'date'                         },
             { text: 'Descrição', value: 'description', sortable: false },
-            { text: 'Valor',     value: 'value' },
+            { text: 'Valor',     value: 'value'                        },
             { text: 'Operação',  value: 'operation',   sortable: false }
         ],
         accountData: [],
         selectedOperation: [],
         operationsToSelect: [ 'Crédito', 'Débito' ],
+        inProgress: true,
     }),
+
+    watch: {
+        selectedOperation(operation) {
+            this.filterOperation(operation);
+        }
+    },
 
     mounted() {
         this.getReports();
@@ -68,6 +68,7 @@ export default {
                 this.loading = false;
             })
         },
+
         prepare(data) {
             data.forEach(item => {
                 const historicModel = {};
@@ -78,13 +79,26 @@ export default {
                 this.accountData.push(historicModel);
             });
         },
+
         getFormattedOperation(operation) {
             if (operation === 'credit') return 'Crédito';
             else if (operation === 'debit') return 'Débito';
             else return 'Desconhecido';
         },
+
         getFormattedCurrency(value) {
             return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        },
+
+        filterOperation(selected) {
+            //  TODO guardar obj em memória para trabalhar os filtros
+            // if (!selected) return;
+            // const toFilter = this.accountData;
+            // const filtered = toFilter.filter((item) => {
+            //     return item.operation === selected;
+            // });
+
+            // this.accountData = filtered;
         },
     }
 }

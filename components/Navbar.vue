@@ -58,7 +58,6 @@
         username: 'Junkes',
         balance: null,
         avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
-        right: null,
     }),
   }
 </script>
