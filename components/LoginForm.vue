@@ -9,7 +9,6 @@
                 <span class="text-caption text-sm-body-2 text-md-body-1 text-lg-h6">
                   Login
                 </span>
-                
                 </v-card-title>
               <v-card-text>
                 <v-form v-model="formIsValid">
@@ -40,9 +39,8 @@
                   x-large block
                   :loading="loading"
                   :disabled="loading"
-                  @click="loader = 'loading'"
-                  @submit.prevent="login"
-                >Login</v-btn>
+                  @click="login"
+                >Entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -56,7 +54,6 @@
 export default {
     data: () => ({
       formIsValid: false,
-      loader: null,
       loading: false,
       usernameRules: [
         f => !!f || 'Preencha o campo usuário'
@@ -71,45 +68,24 @@ export default {
       authenticated: false,
     }),
 
-    watch: {
-      loader () {
-        const l = this.loader;
-        this[l] = !this[l];
-        setTimeout(() => (
-          this[l] = false
-        ), 1500);
-        this.loader = null;
-        this.login();
-      },
-    },
-
     methods: {
       login() {
+        this.loading = true;
         this.$axios.$post('/login', this.form)
         .then((response) => {
-          sessionStorage.setItem('USER_LOGIN', response.data)
-          this.authenticated = true;
+          if (response.status === 200) {
+            sessionStorage.setItem('USER_LOGIN', response)
+            this.authenticated = true;
+          }
         }).catch((err) => {
           return err.message;
         }).finally(() => {
-          setTimeout(() => {
-            if (this.authenticated) {
-              this.$router.push('/');
-            }
-          }, 1500);
+          if (this.authenticated) {
+            this.loader = null;
+            this.$router.push('/');
+          }
         })
       },
     }
 }
 </script>
-
-<style scoped>
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>
