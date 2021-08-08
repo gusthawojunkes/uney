@@ -22,7 +22,10 @@
 
     <v-spacer></v-spacer>
     <div>
-      <v-btn icon>
+      <v-btn 
+        icon
+        @click="$auth.logout()"
+      >
         <v-icon>mdi-exit-to-app</v-icon>
       </v-btn>
     </div>
@@ -43,26 +46,28 @@
 
 <script>
 export default {
-  data () {
-    return {
-      brand: 'Uney',
-      drawer: false,
-      useFooter: false,
-      navItems: [
-        {
-          icon: 'mdi-apps',
-          title: 'Dashboard',
-          to: '/'
-        },
-        {
-          icon: 'mdi-account',
-          title: 'Conta',
-          to: '/account'
-        },
-      ],
-      clipped: false,
-      miniVariant: false
-    }
-  }
+
+  middleware: 'auth',
+
+  data: () => ({
+    brand: 'Uney',
+    drawer: false,
+    useFooter: false,
+    navItems: [
+      {
+        icon: 'mdi-apps',
+        title: 'Dashboard',
+        to: '/'
+      },
+      {
+        icon: 'mdi-account',
+        title: 'Conta',
+        to: '/account'
+      },
+    ],
+    clipped: false,
+    miniVariant: false
+  }),
+  
 }
 </script>

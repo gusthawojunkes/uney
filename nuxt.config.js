@@ -30,9 +30,21 @@ export default {
   ],
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
+    
   ],
   axios: {
     baseURL: 'http://localhost:5000'
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          user: false,
+          login: { url: '/login', method: 'post' }
+        }
+      }
+    }
   },
   moment: {
     deafaultLocale: 'pt-br'

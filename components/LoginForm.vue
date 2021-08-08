@@ -3,7 +3,7 @@
     <v-main>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center" dense>
-          <v-col cols="12" sm="8" md="4" lg="4">
+          <v-col cols="10" xs="6" sm="8" md="6" lg="6" xl="2">
             <v-card elevation="0">
               <v-card-title>
                 <span class="text-caption text-sm-body-2 text-md-body-1 text-lg-h6">
@@ -69,22 +69,17 @@ export default {
     }),
 
     methods: {
-      login() {
-        this.loading = true;
-        this.$axios.$post('/login', this.form)
-        .then((response) => {
-          if (response.status === 200) {
-            sessionStorage.setItem('USER_LOGIN', response)
-            this.authenticated = true;
-          }
-        }).catch((err) => {
-          return err.message;
-        }).finally(() => {
-          if (this.authenticated) {
-            this.loader = null;
-            this.$router.push('/');
-          }
-        })
+      async login() {
+        try {
+          const user = await this.$auth.loginWith('local', {
+            data: this.form
+          })
+          this.$auth.setUser(user);
+          console.log(this.$auth.loggedIn)
+          this.$router.push('/')
+        } catch {
+          // Error message
+        }
       },
     }
 }
