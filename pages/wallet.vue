@@ -3,12 +3,12 @@
     <v-col xs="12" sm="10" md="5" lg="5">
         <v-dialog
             v-model="creditDialog"
-            scrollable
-            max-width="900px"
+            max-width="60%"
         >
         <template #activator="{ on, attrs }">
             <v-card
                 v-ripple
+                persistent
                 elevation="10"
                 class="text-center"
                 dark
@@ -16,18 +16,18 @@
                 v-on="on"
             >Creditar</v-card>
         </template>
-            <div>TODO</div>
+            <div><Operation :type="'credit'"></Operation></div>
         </v-dialog>
     </v-col>
     <v-col xs="12" sm="10" md="5" lg="5">
         <v-dialog
             v-model="debitDialog"
-            scrollable
-            max-width="900px"
+            max-width="60%"
         >
         <template #activator="{ on, attrs }">
             <v-card
                 v-ripple
+                persistent
                 elevation="10"
                 class="text-center"
                 dark
@@ -35,7 +35,7 @@
                 v-on="on"
             >Debitar</v-card>
         </template>
-            <div>TODO</div>
+            <div><Operation :type="'debit'"></Operation></div>
         </v-dialog>
     </v-col>
     
