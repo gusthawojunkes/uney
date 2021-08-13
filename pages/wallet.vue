@@ -1,48 +1,50 @@
 <template>
-    <v-container fluid pa-0>
-        <v-row justify="center" dense>
-
-            <v-dialog
-                v-model="creditDialog"
-                max-width="600px"
-            >
-                <Operation :type="credit" />
-            </v-dialog>
-
-            <v-col xs="12" sm="10" md="5" lg="5">
-                <v-card
-                    v-ripple
-                    elevation="10"
-                    class="text-center"
-                >
-                    <span>Creditar</span>
-                </v-card>        
-            </v-col>
-
-            <v-dialog
-                v-model="debitDialog"
-                max-width="600px"
-            >
-                <Operation :type="debit"/>
-            </v-dialog>
-            
-            <v-col xs="12" sm="10" md="5" lg="5">
-                <v-card
-                    v-ripple
-                    elevation="10"
-                    class="text-center"
-                >
-                    <span>Debitar</span>
-                </v-card>
-            </v-col>
-        </v-row>    
-    </v-container>
+<v-row justify="center" dense> 
+    <v-col xs="12" sm="10" md="5" lg="5">
+        <v-dialog
+            v-model="creditDialog"
+            scrollable
+            max-width="900px"
+        >
+        <template #activator="{ on, attrs }">
+            <v-card
+                v-ripple
+                elevation="10"
+                class="text-center"
+                dark
+                v-bind="attrs"
+                v-on="on"
+            >Creditar</v-card>
+        </template>
+            <div>TODO</div>
+        </v-dialog>
+    </v-col>
+    <v-col xs="12" sm="10" md="5" lg="5">
+        <v-dialog
+            v-model="debitDialog"
+            scrollable
+            max-width="900px"
+        >
+        <template #activator="{ on, attrs }">
+            <v-card
+                v-ripple
+                elevation="10"
+                class="text-center"
+                dark
+                v-bind="attrs"
+                v-on="on"
+            >Debitar</v-card>
+        </template>
+            <div>TODO</div>
+        </v-dialog>
+    </v-col>
+    
+  </v-row>
 </template>
 
 <script>
 export default {
     data: () => ({
-        Operationbalance: null,
         creditDialog: false,
         debitDialog: false,
     }),

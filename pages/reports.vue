@@ -13,18 +13,18 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col v-if="accountData.length">
+            <v-col v-if="accountData.length === 0">
+                <NoData />
+            </v-col>
+            <v-col v-else>
                 <v-data-table
-                    :headers="headers"
+                    headers="headers"
                     :items="accountData"
                     loading="accountData"
                     loading-text="Carregando..."
                     :items-per-page="10"
                     class="elevation-1"
                 ></v-data-table>
-            </v-col>
-            <v-col v-else>
-                <NoData />
             </v-col>
         </v-row>
     </v-container>
