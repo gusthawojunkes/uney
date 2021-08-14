@@ -1,24 +1,12 @@
 <template>
     <v-container>
-        <v-row v-if="!inProgress">
-            <v-col cols="3">
-                <v-combobox
-                    v-model="selectedOperation"
-                    :items="operationsToSelect"
-                    label="Operação"
-                    clearable
-                    outlined
-                    dense
-                ></v-combobox>
-            </v-col>
-        </v-row>
         <v-row>
             <v-col v-if="accountData.length === 0">
                 <NoData />
             </v-col>
             <v-col v-else>
                 <v-data-table
-                    headers="headers"
+                    :headers="headers"
                     :items="accountData"
                     loading="accountData"
                     loading-text="Carregando..."
@@ -42,9 +30,6 @@ export default {
             { text: 'Operação',  value: 'operation',   sortable: false }
         ],
         accountData: [],
-        selectedOperation: [],
-        operationsToSelect: [ 'Crédito', 'Débito' ],
-        inProgress: true,
     }),
 
     watch: {
@@ -88,17 +73,6 @@ export default {
 
         getFormattedCurrency(value) {
             return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-        },
-
-        filterOperation(selected) {
-            //  TODO guardar obj em memória para trabalhar os filtros
-            // if (!selected) return;
-            // const toFilter = this.accountData;
-            // const filtered = toFilter.filter((item) => {
-            //     return item.operation === selected;
-            // });
-
-            // this.accountData = filtered;
         },
     }
 }

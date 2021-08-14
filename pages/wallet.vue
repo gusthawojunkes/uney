@@ -48,8 +48,5 @@ export default {
         creditDialog: false,
         debitDialog: false,
     }),
-    methods: {
-
-    }
 }
 </script>

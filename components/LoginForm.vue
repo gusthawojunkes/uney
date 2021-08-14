@@ -66,20 +66,20 @@ export default {
         password: '',
       },
       authenticated: false,
+      error: undefined
     }),
 
     methods: {
       async login() {
-        try {
-          const user = await this.$auth.loginWith('local', {
+          await this.$auth.loginWith('local', {
             data: this.form
+          }).then((user) => {
+            this.$auth.setUser(user);
+            this.$router.push('/');
+          }).catch((err) => {
+            this.error = err;
           })
-          this.$auth.setUser(user);
-          console.log(this.$auth.loggedIn)
-          this.$router.push('/')
-        } catch {
-          // Error message
-        }
+          
       },
     }
 }
