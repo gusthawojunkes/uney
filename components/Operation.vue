@@ -11,6 +11,7 @@
                         label="Descrição"
                         :rules="descRules"
                         outlined
+                        counter="40"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="4">
@@ -54,23 +55,31 @@ export default {
             value => (value && value >= 0) || 'O valor não pode ser menor que zero!'
         ],
         descRules: [
-           value => (!!value) || 'Preencha o campo descrição'
+           value => (!!value) || 'Preencha o campo descrição',
+           value => (value && value.length < 40) || 'Máximo de 40 caracteres'
         ],
     }),
     methods: {
+        isFormValid() {
+            if (this.value === undefined || this.description === undefined) {
+                this.$toast.error('Preencha os campos');
+                return false;
+            }
+        },
+
         createHistoric() {
+            if (!this.isFormValid()) return;
             this.$axios.$post('/historic', {
-                value: this.value,
+                value: parseFloat(this.value),
                 description: this.description,
                 operation: this.type,
                 accountId: 1 // WIP
-            }).then((response) => {
-                this.success = response !== undefined;
+            }).then(() => {
+                this.$toast.success( (this.type === 'credit' ? 'Creditado' : 'Debitado') + ' com sucesso.');
             }).catch((err) => {
-                this.success = false;
-                this.error = err;
-            })
-        },
+                this.$toast.error(err);
+            });
+        },  
     }
 }
 </script>

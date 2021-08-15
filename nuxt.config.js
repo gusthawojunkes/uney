@@ -18,10 +18,8 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  css: [
-  ],
-  plugins: [
-  ],
+  css: [],
+  plugins: [],
   components: true,
   buildModules: [
     '@nuxtjs/eslint-module',
@@ -30,8 +28,8 @@ export default {
   ],
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
-    
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast'
   ],
   axios: {
     baseURL: 'http://localhost:5000'
@@ -48,6 +46,11 @@ export default {
   },
   moment: {
     deafaultLocale: 'pt-br'
+  },
+  toast: {
+    position: 'top-right',
+    duration: 1250,
+    register: [] // https://www.npmjs.com/package/@nuxtjs/toast
   },
   vuetify: {
     customVariables: ['~/assets/variables.scss'],

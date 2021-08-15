@@ -10,7 +10,7 @@
                     :items="accountData"
                     loading="accountData"
                     loading-text="Carregando..."
-                    :items-per-page="10"
+                    :items-per-page="15"
                     class="elevation-1"
                 ></v-data-table>
             </v-col>

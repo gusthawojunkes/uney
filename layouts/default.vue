@@ -47,7 +47,7 @@
 <script>
 export default {
 
-  middleware: 'auth',
+  // middleware: 'auth',
 
   data: () => ({
     brand: 'Uney',

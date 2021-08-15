@@ -14,7 +14,7 @@
                     {{ username }}
                 </div>
                 <v-list-item-subtitle class="text-center">
-                    R$ {{ balance ? balance : 0}}
+                    {{ balance }}
                 </v-list-item-subtitle>
             </v-list-item-content>
         </v-list-item>
@@ -47,17 +47,32 @@
 </template>
 
 <script>
-  export default {
-    props: {
-        navItems: {
-            type: Array,
-            required: true
+    export default {
+        props: {
+            navItems: {
+                type: Array,
+                required: true
+            }
+        },
+        data: () => ({
+            username: 'Gusthawo Junkes',
+            balance: 0.00,
+            avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
+            error: undefined
+        }),
+        created() { this.getBalance();  },
+        methods: {
+            getBalance() {
+                const accountId = 1;
+                this.$axios.$get(`/account/${accountId}/balance`)
+                .then((response) => {
+                    const balance = (response !== undefined ? response : 0 ).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+                    this.balance = balance;
+                    sessionStorage.setItem('balance', balance);
+                }).catch((err) => {
+                    this.error = err;
+                });
+            }
         }
-    },
-    data: () => ({
-        username: 'Junkes',
-        balance: null,
-        avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
-    }),
-  }
+    }
 </script>
