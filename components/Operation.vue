@@ -65,6 +65,7 @@ export default {
                 this.$toast.error('Preencha os campos');
                 return false;
             }
+            return true;
         },
 
         createHistoric() {
