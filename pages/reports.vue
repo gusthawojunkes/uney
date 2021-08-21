@@ -63,24 +63,9 @@ export default {
                     'DD/MM/YYYY'
                 );
                 historicModel.description = item.description;
-                historicModel.value = this.getFormattedCurrency(item.value);
-                historicModel.operation = this.getFormattedOperation(
-                    item.operation
-                );
+                historicModel.value = this.$currency(item.value);
+                historicModel.operation = this.$operation(item.operation);
                 this.accountData.push(historicModel);
-            });
-        },
-
-        getFormattedOperation(operation) {
-            if (operation === 'credit') return 'Crédito';
-            else if (operation === 'debit') return 'Débito';
-            else return 'Desconhecido';
-        },
-
-        getFormattedCurrency(value) {
-            return value.toLocaleString('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
             });
         },
     },

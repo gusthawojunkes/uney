@@ -65,12 +65,9 @@ export default {
             this.$axios
                 .$get(`/account/${accountId}/balance`)
                 .then((response) => {
-                    const balance = (
+                    const balance = this.$currency(
                         response !== undefined ? response : 0
-                    ).toLocaleString('pt-br', {
-                        style: 'currency',
-                        currency: 'BRL',
-                    });
+                    );
                     this.balance = balance;
                     sessionStorage.setItem('balance', balance);
                 })
