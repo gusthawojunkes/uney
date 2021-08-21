@@ -1,12 +1,12 @@
 <template>
-  <Dashboard />
+    <Dashboard />
 </template>
 
 <script>
 export default {
-  data: () => ({
-      brand: 'Uney',
-      users: [],
-  })
-}
+    data: () => ({
+        brand: 'Uney',
+        users: [],
+    }),
+};
 </script>

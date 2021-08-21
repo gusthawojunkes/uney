@@ -4,7 +4,7 @@
             <v-list-item-content>
                 <v-list-item-title class="text-center">
                     <div v-if="avatarSrc">
-                        <Avatar :src="avatarSrc"/>
+                        <Avatar :src="avatarSrc" />
                     </div>
                     <div v-else>
                         <AvatarDefault :username="username" />
@@ -21,11 +21,7 @@
 
         <v-divider></v-divider>
 
-        <v-list
-            dense
-            nav
-            shaped
-        >
+        <v-list dense nav shaped>
             <v-list-item
                 v-for="item in navItems"
                 :key="item.title"
@@ -47,32 +43,41 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            navItems: {
-                type: Array,
-                required: true
-            }
+export default {
+    props: {
+        navItems: {
+            type: Array,
+            required: true,
         },
-        data: () => ({
-            username: 'Gusthawo Junkes',
-            balance: 0.00,
-            avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
-            error: undefined
-        }),
-        created() { this.getBalance();  },
-        methods: {
-            getBalance() {
-                const accountId = 1;
-                this.$axios.$get(`/account/${accountId}/balance`)
+    },
+    data: () => ({
+        username: 'Gusthawo Junkes',
+        balance: 0.0,
+        avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
+        error: undefined,
+    }),
+    created() {
+        this.getBalance();
+    },
+    methods: {
+        getBalance() {
+            const accountId = 1;
+            this.$axios
+                .$get(`/account/${accountId}/balance`)
                 .then((response) => {
-                    const balance = (response !== undefined ? response : 0 ).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+                    const balance = (
+                        response !== undefined ? response : 0
+                    ).toLocaleString('pt-br', {
+                        style: 'currency',
+                        currency: 'BRL',
+                    });
                     this.balance = balance;
                     sessionStorage.setItem('balance', balance);
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     this.error = err;
                 });
-            }
-        }
-    }
+        },
+    },
+};
 </script>

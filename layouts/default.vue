@@ -47,27 +47,27 @@
 <script>
 export default {
 
-  // middleware: 'auth',
+    // middleware: 'auth',
 
-  data: () => ({
-    brand: 'Uney',
-    drawer: false,
-    useFooter: false,
-    navItems: [
-      {
-        icon: 'mdi-apps',
-        title: 'Dashboard',
-        to: '/'
-      },
-      {
-        icon: 'mdi-account',
-        title: 'Conta',
-        to: '/account'
-      },
-    ],
-    clipped: false,
-    miniVariant: false
-  }),
+    data: () => ({
+        brand: 'Uney',
+        drawer: false,
+        useFooter: false,
+        navItems: [
+            {
+                icon: 'mdi-apps',
+                title: 'Dashboard',
+                to: '/'
+            },
+            {
+                icon: 'mdi-account',
+                title: 'Conta',
+                to: '/account'
+            },
+        ],
+        clipped: false,
+        miniVariant: false
+    }),
   
-}
+};
 </script>

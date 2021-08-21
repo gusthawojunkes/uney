@@ -55,8 +55,8 @@ export default {
             value => (value && value >= 0) || 'O valor não pode ser menor que zero!'
         ],
         descRules: [
-           value => (!!value) || 'Preencha o campo descrição',
-           value => (value && value.length < 40) || 'Máximo de 40 caracteres'
+            value => (!!value) || 'Preencha o campo descrição',
+            value => (value && value.length < 40) || 'Máximo de 40 caracteres'
         ],
     }),
     methods: {
@@ -82,5 +82,5 @@ export default {
             });
         },  
     }
-}
+};
 </script>

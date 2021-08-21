@@ -1,8 +1,6 @@
 <template>
-    <v-avatar
-        size="100"
-    >
-    <img :src="src">
+    <v-avatar size="100">
+        <img :src="src" />
     </v-avatar>
 </template>
 
@@ -11,8 +9,8 @@ export default {
     props: {
         src: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
-}
+};
 </script>

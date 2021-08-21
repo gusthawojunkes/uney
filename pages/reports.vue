@@ -16,7 +16,6 @@
             </v-col>
         </v-row>
     </v-container>
-    
 </template>
 
 <script>
@@ -24,10 +23,10 @@ export default {
     data: () => ({
         loading: null,
         headers: [
-            { text: 'Data',      value: 'date'                         },
+            { text: 'Data', value: 'date' },
             { text: 'Descrição', value: 'description', sortable: false },
-            { text: 'Valor',     value: 'value'                        },
-            { text: 'Operação',  value: 'operation',   sortable: false }
+            { text: 'Valor', value: 'value' },
+            { text: 'Operação', value: 'operation', sortable: false },
         ],
         accountData: [],
     }),
@@ -35,7 +34,7 @@ export default {
     watch: {
         selectedOperation(operation) {
             this.filterOperation(operation);
-        }
+        },
     },
 
     mounted() {
@@ -44,23 +43,30 @@ export default {
 
     methods: {
         getReports(_params = null) {
-            this.$axios.$get('/historic')
-            .then((response) => {
-                this.prepare(response);
-            }).catch((err) => {
-                this.error = err;
-            }).finally(() => {
-                this.loading = false;
-            })
+            this.$axios
+                .$get('/historic')
+                .then((response) => {
+                    this.prepare(response);
+                })
+                .catch((err) => {
+                    this.error = err;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
 
         prepare(data) {
-            data.forEach(item => {
+            data.forEach((item) => {
                 const historicModel = {};
-                historicModel.date = this.$moment(item.created_at).format('DD/MM/YYYY');
+                historicModel.date = this.$moment(item.created_at).format(
+                    'DD/MM/YYYY'
+                );
                 historicModel.description = item.description;
                 historicModel.value = this.getFormattedCurrency(item.value);
-                historicModel.operation = this.getFormattedOperation(item.operation);
+                historicModel.operation = this.getFormattedOperation(
+                    item.operation
+                );
                 this.accountData.push(historicModel);
             });
         },
@@ -72,8 +78,11 @@ export default {
         },
 
         getFormattedCurrency(value) {
-            return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            return value.toLocaleString('pt-br', {
+                style: 'currency',
+                currency: 'BRL',
+            });
         },
-    }
-}
+    },
+};
 </script>

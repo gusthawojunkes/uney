@@ -2,10 +2,10 @@
     <v-container>
         <v-row>
             <v-col>
-              <WalletOption />
+                <WalletOption />
             </v-col>
             <v-col>
-              <ReportsOption />
+                <ReportsOption />
             </v-col>
         </v-row>
     </v-container>

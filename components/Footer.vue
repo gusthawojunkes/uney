@@ -1,16 +1,13 @@
 <template>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer :absolute="!fixed" app>
+        <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
 </template>
 
 <script>
-  export default {
+export default {
     data: () => ({
-      fixed: false,
-    })       
-  }
+        fixed: false,
+    }),
+};
 </script>
