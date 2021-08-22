@@ -1,7 +1,7 @@
 <template>
     <v-row justify="center" dense>
         <v-col xs="12" sm="10" md="5" lg="5">
-            <v-dialog v-model="creditDialog" max-width="60%">
+            <v-dialog v-model="creditDialog.modal" max-width="60%">
                 <template #activator="{ on, attrs }">
                     <v-card
                         v-ripple
@@ -18,7 +18,7 @@
             </v-dialog>
         </v-col>
         <v-col xs="12" sm="10" md="5" lg="5">
-            <v-dialog v-model="debitDialog" max-width="60%">
+            <v-dialog v-model="debitDialog.modal" max-width="60%">
                 <template #activator="{ on, attrs }">
                     <v-card
                         v-ripple
@@ -40,8 +40,8 @@
 <script>
 export default {
     data: () => ({
-        creditDialog: false,
-        debitDialog: false,
+        creditDialog: { modal: false },
+        debitDialog: { modal: false },
     }),
 };
 </script>
