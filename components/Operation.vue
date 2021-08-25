@@ -1,11 +1,7 @@
 <template>
     <v-card>
         <v-card-title class="text-h5">
-            {{
-                type === 'credit'
-                    ? 'Quanto deseja creditar?'
-                    : 'Quanto deseja debitar?'
-            }}
+            {{ type.transaction === 'credit' ? 'Quanto deseja creditar?' : 'Quanto deseja debitar?' }}
         </v-card-title>
         <v-card-text>
             <v-row>
@@ -32,9 +28,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text>Cancelar</v-btn>
-            <v-btn color="green darken-1" text @click="createHistoric"
-                >Finalizar</v-btn
-            >
+            <v-btn color="green darken-1" text @click="createHistoric">Finalizar</v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -42,23 +36,20 @@
 <script>
 export default {
     props: {
-        type: { type: String, default: '' },
+        type: { type: Object, default: () => {} },
     },
     data: () => ({
         value: undefined,
         description: undefined,
-        success: false,
-        error: undefined,
         valueRules: [
             (value) =>
                 (value && !isNaN(parseFloat(value))) || 'Preencha com números!',
             (value) =>
-                (value && this.isValidValue(value)) || 'Preencha com números!',
-            (value) =>
                 (value && value >= 0) || 'O valor não pode ser menor que zero!',
         ],
         descRules: [
-            (value) => !!value || 'Preencha o campo descrição',
+            (value) => 
+                !!value || 'Preencha o campo descrição',
             (value) =>
                 (value && value.length < 40) || 'Máximo de 40 caracteres',
         ],
@@ -78,22 +69,21 @@ export default {
                 .$post('/historic', {
                     value: parseFloat(this.value),
                     description: this.description,
-                    operation: this.type,
+                    operation: this.type.transaction,
                     accountId: 1, // WIP
                 })
                 .then(() => {
                     this.$toast.success(
-                        (this.type === 'credit' ? 'Creditado' : 'Debitado') +
+                        (this.type.transaction === 'credit' ? 'Creditado' : 'Debitado') +
                             ' com sucesso.'
                     );
                 })
                 .catch((err) => {
                     this.$toast.error(err);
+                }).finally(() => {
+                    this.description = undefined;
+                    this.value = undefined;
                 });
-        },
-
-        isValidValue(value) {
-            if (value && value >= 0) return true;
         },
     },
 };

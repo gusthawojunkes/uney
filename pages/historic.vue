@@ -12,7 +12,22 @@
                     loading-text="Carregando..."
                     :items-per-page="15"
                     class="elevation-1"
-                ></v-data-table>
+                >
+                <template #[`item.favorite`]="{ item }">
+                    <v-btn 
+                        icon 
+                        @click="markAsFavorite(item.id)"
+                    >
+                        <v-icon 
+                            dark
+                            :color="item.favorite === 1 ? 'yellow' : 'grey'"
+                        >
+                            mdi-star
+                        </v-icon>
+                    </v-btn>
+                    
+                </template>
+                </v-data-table>
             </v-col>
         </v-row>
     </v-container>
@@ -23,10 +38,11 @@ export default {
     data: () => ({
         loading: null,
         headers: [
-            { text: 'Data', value: 'date' },
-            { text: 'Descrição', value: 'description', sortable: false },
-            { text: 'Valor', value: 'value' },
-            { text: 'Operação', value: 'operation', sortable: false },
+            { text: 'Favorito',  value: 'favorite',    sortable: false, align: 'center' },
+            { text: 'Data',      value: 'date',        sortable: true,  align: 'center' },
+            { text: 'Descrição', value: 'description', sortable: false                  },
+            { text: 'Valor',     value: 'value',       sortable: true                   },
+            { text: 'Operação',  value: 'operation',   sortable: false                  },
         ],
         accountData: [],
     }),
@@ -59,15 +75,16 @@ export default {
         prepare(data) {
             data.forEach((item) => {
                 const historicModel = {};
-                historicModel.date = this.$moment(item.created_at).format(
-                    'DD/MM/YYYY'
-                );
+                historicModel.id = item.id;
+                historicModel.favorite = 0;
+                historicModel.date = this.$moment(item.created_at).format('DD/MM/YYYY');
                 historicModel.description = item.description;
                 historicModel.value = this.$currency(item.value);
                 historicModel.operation = this.$operation(item.operation);
                 this.accountData.push(historicModel);
             });
         },
+        markAsFavorite(id) {}
     },
 };
 </script>
