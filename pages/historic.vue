@@ -14,10 +14,15 @@
                     class="elevation-1"
                 >
                     <template #[`item.favorite`]="{ item }">
-                        <v-btn icon @click="markAsFavorite(item.id)">
+                        <v-btn
+                            icon
+                            @click="markAsFavorite(item.id, item.favorite)"
+                        >
                             <v-icon
                                 dark
-                                :color="item.favorite === 1 ? 'yellow' : 'grey'"
+                                :color="
+                                    item.favorite === true ? 'yellow' : 'grey'
+                                "
                             >
                                 mdi-star
                             </v-icon>
@@ -75,26 +80,32 @@ export default {
 
         prepare(data) {
             data.forEach((item) => {
-                const historicModel = {};
-                historicModel.id = item.id;
-                historicModel.favorite = 0;
-                historicModel.date = this.$moment(item.created_at).format(
+                const historic = {};
+                historic.id = item.id;
+                historic.favorite = item.favorite;
+                historic.date = this.$moment(item.created_at).format(
                     'DD/MM/YYYY'
                 );
-                historicModel.description = item.description;
-                historicModel.value = this.$currency(item.value);
-                historicModel.operation = this.$operation(item.operation);
-                this.accountData.push(historicModel);
+                historic.description = item.description;
+                historic.value = this.$currency(item.value);
+                historic.operation = this.$operation(item.operation);
+                this.accountData.push(historic);
             });
         },
-        markAsFavorite(id) {
+        markAsFavorite(id, isFavorite) {
             this.$axios
-                .$patch('/historic/favorite/' + id, true)
-                .then(() => {
-                    // Switch grey to yellow
+                .$patch('/historic/favorite/' + id, {
+                    favorite: !isFavorite,
+                })
+                .then((response) => {
+                    const historic = response;
+                    const index = this.accountData.findIndex(
+                        (historic) => historic.id === id
+                    );
+                    this.accountData[index].favorite = historic.favorite;
                 })
                 .catch((err) => {
-                    this.$toast.error(err);
+                    this.$toast.error(err.message);
                 });
         },
     },

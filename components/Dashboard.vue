@@ -5,7 +5,7 @@
                 v-for="option in options"
                 :key="option.path"
                 cols="12"
-                xl="3"
+                xl="4"
                 lg="4"
                 md="4"
                 sm="12"
@@ -36,7 +36,7 @@ export default {
                 icon: 'mdi-chart-box',
                 name: 'Relatórios',
                 path: '/reports',
-                pathAction: 'Gerar',
+                pathAction: 'Detalhar',
             },
         ],
     }),
