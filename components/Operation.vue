@@ -1,11 +1,15 @@
 <template>
     <v-card>
         <v-card-title class="text-h5">
-            {{ type.transaction === 'credit' ? 'Quanto deseja creditar?' : 'Quanto deseja debitar?' }}
+            {{
+                type.transaction === 'credit'
+                    ? 'Quanto deseja creditar?'
+                    : 'Quanto deseja debitar?'
+            }}
         </v-card-title>
         <v-card-text>
-            <v-row>
-                <v-col cols="8">
+            <v-row no-gutters>
+                <v-col cols="12" xl="8" lg="8" md="8">
                     <v-text-field
                         v-model="description"
                         label="Descrição"
@@ -14,7 +18,7 @@
                         counter="40"
                     ></v-text-field>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="12" xl="4" lg="4" md="4">
                     <v-text-field
                         v-model="value"
                         label="Valor"
@@ -28,7 +32,9 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text>Cancelar</v-btn>
-            <v-btn color="green darken-1" text @click="createHistoric">Finalizar</v-btn>
+            <v-btn color="green darken-1" text @click="createHistoric">
+                Finalizar</v-btn
+            >
         </v-card-actions>
     </v-card>
 </template>
@@ -48,8 +54,7 @@ export default {
                 (value && value >= 0) || 'O valor não pode ser menor que zero!',
         ],
         descRules: [
-            (value) => 
-                !!value || 'Preencha o campo descrição',
+            (value) => !!value || 'Preencha o campo descrição',
             (value) =>
                 (value && value.length < 40) || 'Máximo de 40 caracteres',
         ],
@@ -74,13 +79,15 @@ export default {
                 })
                 .then(() => {
                     this.$toast.success(
-                        (this.type.transaction === 'credit' ? 'Creditado' : 'Debitado') +
-                            ' com sucesso.'
+                        (this.type.transaction === 'credit'
+                            ? 'Creditado'
+                            : 'Debitado') + ' com sucesso.'
                     );
                 })
                 .catch((err) => {
                     this.$toast.error(err);
-                }).finally(() => {
+                })
+                .finally(() => {
                     this.description = undefined;
                     this.value = undefined;
                 });

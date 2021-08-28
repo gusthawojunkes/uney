@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <v-row justify="center" dense>
-            <v-col xs="12" sm="10" md="5" lg="5">
-                <v-dialog v-model="credit.modal" max-width="60%">
+            <v-col cols="12" sm="10" md="5" lg="5">
+                <v-dialog v-model="credit.modal" max-width="80%">
                     <template #activator="{ on, attrs }">
                         <v-card
                             v-ripple
@@ -24,8 +24,8 @@
                     <Operation :type="credit"></Operation>
                 </v-dialog>
             </v-col>
-            <v-col xs="12" sm="10" md="5" lg="5">
-                <v-dialog v-model="debit.modal" max-width="60%">
+            <v-col cols="12" sm="10" md="5" lg="5">
+                <v-dialog v-model="debit.modal" max-width="80%">
                     <template #activator="{ on, attrs }">
                         <v-card
                             v-ripple
@@ -55,7 +55,7 @@
 export default {
     data: () => ({
         credit: { modal: false, transaction: 'credit' },
-        debit:  { modal: false, transaction: 'debit'  },
+        debit: { modal: false, transaction: 'debit' },
     }),
 };
 </script>

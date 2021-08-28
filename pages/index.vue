@@ -4,9 +4,6 @@
 
 <script>
 export default {
-    data: () => ({
-        brand: 'Uney',
-        users: [],
-    }),
+    data: () => ({}),
 };
 </script>

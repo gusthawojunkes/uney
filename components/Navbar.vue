@@ -53,7 +53,7 @@ export default {
     data: () => ({
         username: 'Gusthawo Junkes',
         balance: 0.0,
-        avatarSrc: '', //   https://cdn.vuetifyjs.com/images/john.jpg
+        avatarSrc: 'https://github.com/gusthawojunkes.png?size=100',
         error: undefined,
     }),
     created() {
