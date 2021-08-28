@@ -20,12 +20,18 @@
                         >
                             <v-icon
                                 dark
-                                :color="
-                                    item.favorite === true ? 'yellow' : 'grey'
-                                "
+                                :color="getFavoriteColor(item.favorite)"
                             >
                                 mdi-star
                             </v-icon>
+                        </v-btn>
+                    </template>
+                    <template #[`item.actions`]="{ item }">
+                        <v-btn icon color="blue" @click="edit(item.id)">
+                            <v-icon dark> mdi-pencil </v-icon>
+                        </v-btn>
+                        <v-btn icon color="red" @click="remove(item.id)">
+                            <v-icon dark> mdi-delete </v-icon>
                         </v-btn>
                     </template>
                 </v-data-table>
@@ -49,15 +55,15 @@ export default {
             { text: 'Descrição', value: 'description', sortable: false },
             { text: 'Valor', value: 'value', sortable: true },
             { text: 'Operação', value: 'operation', sortable: false },
+            {
+                text: 'Ações',
+                value: 'actions',
+                sortable: false,
+                align: 'center',
+            },
         ],
         accountData: [],
     }),
-
-    watch: {
-        selectedOperation(operation) {
-            this.filterOperation(operation);
-        },
-    },
 
     mounted() {
         this.getReports();
@@ -99,14 +105,34 @@ export default {
                 })
                 .then((response) => {
                     const historic = response;
-                    const index = this.accountData.findIndex(
-                        (historic) => historic.id === id
-                    );
+                    const index = this.getIndex(id);
                     this.accountData[index].favorite = historic.favorite;
                 })
                 .catch((err) => {
                     this.$toast.error(err.message);
                 });
+        },
+        getFavoriteColor(favorite = false) {
+            return favorite === true ? 'yellow' : 'grey';
+        },
+        remove(id) {
+            this.$axios
+                .$delete('/historic/' + id, {
+                    accountId: 1, // TODO
+                })
+                .then((response) => {
+                    // const balance = response;
+                    const index = this.getIndex(id);
+                    this.accountData.splice(index, 1);
+                    this.$toast.success('Removido com sucesso');
+                })
+                .catch((err) => {
+                    this.$toast.error(err.message);
+                });
+        },
+        edit(id) {},
+        getIndex(id) {
+            return this.accountData.findIndex((historic) => historic.id === id);
         },
     },
 };
