@@ -1,0 +1,10 @@
+@import url('./main-layout.css');
+    [theme~="dark"] {
+      --lumo-primary-color-50pct: hsla(271, 86%, 55%, 0.5);
+      --lumo-primary-color-10pct: hsla(271, 86%, 55%, 0.1);
+      --lumo-error-color-50pct: hsla(3, 98%, 37%, 0.5);
+      --lumo-error-color-10pct: hsla(3, 98%, 37%, 0.1);
+      --lumo-primary-color: hsl(271, 86%, 55%);
+      --lumo-error-color: hsla(3, 98%, 37%, 0.81);
+
+    }
