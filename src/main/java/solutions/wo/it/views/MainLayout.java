@@ -16,15 +16,11 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 import org.vaadin.lineawesome.LineAwesomeIcon;
-import solutions.wo.it.data.User;
-import solutions.wo.it.security.AuthenticatedUser;
-import solutions.wo.it.views.configurações.ConfiguraçõesView;
+import solutions.wo.it.database.entities.User;
 import solutions.wo.it.views.dashboard.DashboardView;
 
 /**
@@ -34,11 +30,9 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
-    private AuthenticatedUser authenticatedUser;
     private AccessAnnotationChecker accessChecker;
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
-        this.authenticatedUser = authenticatedUser;
+    public MainLayout(AccessAnnotationChecker accessChecker) {
         this.accessChecker = accessChecker;
 
         setPrimarySection(Section.DRAWER);
@@ -74,10 +68,6 @@ public class MainLayout extends AppLayout {
                     new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.TACHOMETER_ALT_SOLID.create()));
 
         }
-        if (accessChecker.hasAccess(ConfiguraçõesView.class)) {
-            nav.addItem(new SideNavItem("Configurações", ConfiguraçõesView.class, LineAwesomeIcon.COG_SOLID.create()));
-
-        }
 
         return nav;
     }
@@ -85,14 +75,11 @@ public class MainLayout extends AppLayout {
     private Footer createFooter() {
         Footer layout = new Footer();
 
-        Optional<User> maybeUser = authenticatedUser.get();
+        Optional<User> maybeUser = Optional.empty();
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();
 
             Avatar avatar = new Avatar(user.getName());
-            StreamResource resource = new StreamResource("profile-pic",
-                    () -> new ByteArrayInputStream(user.getProfilePicture()));
-            avatar.setImageResource(resource);
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
 
@@ -109,7 +96,7 @@ public class MainLayout extends AppLayout {
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
             userName.getSubMenu().addItem("Sign out", e -> {
-                authenticatedUser.logout();
+//                authenticatedUser.logout();
             });
 
             layout.add(userMenu);
