@@ -8,6 +8,7 @@ import solutions.wo.it.data.ofx.OFXDataHelper;
 import solutions.wo.it.data.ofx.OFXFile;
 import solutions.wo.it.database.entities.FinancialTransaction;
 import solutions.wo.it.data.ofx.StmtTrn;
+import solutions.wo.it.database.entities.User;
 import solutions.wo.it.services.UserService;
 
 import javax.xml.bind.JAXBContext;
@@ -16,7 +17,7 @@ import java.io.*;
 import java.util.*;
 
 @Service
-public class NubankImportFinancialFileService implements ImportFinancialFileService {
+public class NubankImportFileService implements ImportFileService {
 
     UserService userService;
 
@@ -38,7 +39,7 @@ public class NubankImportFinancialFileService implements ImportFinancialFileServ
     }
 
     @Override
-    public Optional<OFXFile> readOFXFile(File file) {
+    public Optional<OFXFile>  readOFXFile(File file) {
         try {
             JAXBContext context = JAXBContext.newInstance(OFXFile.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -54,6 +55,8 @@ public class NubankImportFinancialFileService implements ImportFinancialFileServ
     @Override
     public List<FinancialTransaction> createFinancialTransactions(OFXFile ofx) {
         List<FinancialTransaction> financialTransactions = new ArrayList<>();
+        User user = new User();
+        user.setUuid("1");
         List<StmtTrn> transactionsFromFile = ofx.creditCardMsgsRsV1.ccStmtTrnRs.ccStmtRs.bankTranList.stmtTrnList;
         for (StmtTrn ofxTransaciton : transactionsFromFile) {
             FinancialTransaction transaction = new FinancialTransaction();
@@ -63,6 +66,7 @@ public class NubankImportFinancialFileService implements ImportFinancialFileServ
             transaction.setValue(Double.valueOf(ofxTransaciton.trnAmt));
             transaction.setDescription(ofxTransaciton.memo);
             transaction.setTransactionTime(OFXDataHelper.getDate(ofxTransaciton.dtPosted));
+            transaction.setUser(user);
             financialTransactions.add(transaction);
         }
 
@@ -71,8 +75,8 @@ public class NubankImportFinancialFileService implements ImportFinancialFileServ
 
     public File transformIntoXML(File file) {
         String content = readAndTransform(file);
-        writeNewFile(file, content);
-        return file;
+        File temp = writeNewFile(file, content);
+        return temp;
     }
 
     private static String readAndTransform(File file) {
@@ -120,12 +124,14 @@ public class NubankImportFinancialFileService implements ImportFinancialFileServ
         return cleanedContent.toString();
     }
 
-    private static void writeNewFile(File file, String cleanedContent) {
+    private static File writeNewFile(File file, String cleanedContent) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(cleanedContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return file;
     }
 
     public static String getStartingFor(String property) {

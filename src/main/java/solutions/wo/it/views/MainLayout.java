@@ -22,6 +22,8 @@ import java.util.Optional;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 import solutions.wo.it.database.entities.User;
 import solutions.wo.it.views.dashboard.DashboardView;
+import solutions.wo.it.views.importation.ImportView;
+import solutions.wo.it.views.tag.TagFormularyView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -64,9 +66,9 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         if (accessChecker.hasAccess(DashboardView.class)) {
-            nav.addItem(
-                    new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.TACHOMETER_ALT_SOLID.create()));
-
+            nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.TACHOMETER_ALT_SOLID.create()));
+            nav.addItem(new SideNavItem("Importação de arquivos", ImportView.class, LineAwesomeIcon.ARCHIVE_SOLID.create()));
+            nav.addItem(new SideNavItem("Tags", TagFormularyView.class, LineAwesomeIcon.TAG_SOLID.create()));
         }
 
         return nav;

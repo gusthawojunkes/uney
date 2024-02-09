@@ -13,8 +13,13 @@ public class UserService {
         this.repository = repository;
     }
 
-    void save(User user) {
+    public void save(User user) {
         repository.save(user);
+    }
+
+    public User getByUuid(String uuid) {
+        User user = null;
+        return repository.findById(uuid).get();
     }
 
 }
