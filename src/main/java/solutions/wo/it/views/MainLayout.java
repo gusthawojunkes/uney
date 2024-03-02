@@ -4,12 +4,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -18,16 +13,15 @@ import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import java.util.Optional;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 import solutions.wo.it.database.entities.User;
 import solutions.wo.it.views.dashboard.DashboardView;
 import solutions.wo.it.views.importation.ImportView;
-import solutions.wo.it.views.tag.TagFormularyView;
+import solutions.wo.it.views.importation.configuration.ImportConfigurationView;
+import solutions.wo.it.views.transactions.FinancialTransactionsView;
 
-/**
- * The main view is a top-level placeholder for other views.
- */
+import java.util.Optional;
+
 public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
@@ -67,8 +61,13 @@ public class MainLayout extends AppLayout {
 
         if (accessChecker.hasAccess(DashboardView.class)) {
             nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.TACHOMETER_ALT_SOLID.create()));
-            nav.addItem(new SideNavItem("Importação de arquivos", ImportView.class, LineAwesomeIcon.ARCHIVE_SOLID.create()));
-            nav.addItem(new SideNavItem("Tags", TagFormularyView.class, LineAwesomeIcon.TAG_SOLID.create()));
+            nav.addItem(new SideNavItem("Transações", FinancialTransactionsView.class, LineAwesomeIcon.HANDSHAKE.create()));
+
+            SideNavItem importNavItem = new SideNavItem("Importação");
+            importNavItem.setPrefixComponent(LineAwesomeIcon.DOWNLOAD_SOLID.create());
+            importNavItem.addItem(new SideNavItem("Arquivos", ImportView.class, LineAwesomeIcon.FILE.create()));
+            importNavItem.addItem(new SideNavItem("Configuração", ImportConfigurationView.class, LineAwesomeIcon.COGS_SOLID.create()));
+            nav.addItem(importNavItem);
         }
 
         return nav;

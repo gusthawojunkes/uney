@@ -18,6 +18,8 @@ import solutions.wo.it.data.core.enums.FinancialInstitution;
 import solutions.wo.it.data.core.exceptions.FinancialInstitutionNotSupportedException;
 import solutions.wo.it.services.FileService;
 import solutions.wo.it.services.FinancialTransactionService;
+import solutions.wo.it.services.TagService;
+import solutions.wo.it.services.UserService;
 import solutions.wo.it.views.MainLayout;
 
 import java.io.File;
@@ -33,17 +35,16 @@ public class ImportView extends VerticalLayout {
     private FileBuffer buffer = new FileBuffer();
     private Upload upload = new Upload(buffer);
     private Button startImportButton;
-
     private ComboBox<FinancialInstitution> comboboxFinancialInstitution;
-
     private FileService financialFileService;
 
 
     public ImportView(
-        FinancialTransactionService financialTransactionService
+        FinancialTransactionService financialTransactionService,
+        UserService userService,
+        TagService tagService
     ) {
-        financialFileService = new FileService(financialTransactionService);
-
+        financialFileService = new FileService(financialTransactionService, userService, tagService);
         HorizontalLayout layoutImportFile = new HorizontalLayout();
 
         upload.setUploadButton(new Button("Escolher arquivos"));

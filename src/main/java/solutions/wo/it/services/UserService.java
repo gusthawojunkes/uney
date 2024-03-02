@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import solutions.wo.it.database.entities.User;
 import solutions.wo.it.repositories.UserRepository;
 
+import java.util.Objects;
+
 @Service
 public class UserService {
 
@@ -17,9 +19,8 @@ public class UserService {
         repository.save(user);
     }
 
-    public User getByUuid(String uuid) {
-        User user = null;
-        return repository.findById(uuid).get();
+    public User getLoggedUser() {
+        return Objects.requireNonNull(this.repository.findById("1").orElse(null));
     }
 
 }

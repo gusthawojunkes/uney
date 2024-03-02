@@ -8,7 +8,9 @@ import solutions.wo.it.data.ofx.OFXDataHelper;
 import solutions.wo.it.data.ofx.OFXFile;
 import solutions.wo.it.database.entities.FinancialTransaction;
 import solutions.wo.it.data.ofx.StmtTrn;
+import solutions.wo.it.database.entities.Tag;
 import solutions.wo.it.database.entities.User;
+import solutions.wo.it.services.TagService;
 import solutions.wo.it.services.UserService;
 
 import javax.xml.bind.JAXBContext;
@@ -18,8 +20,6 @@ import java.util.*;
 
 @Service
 public class NubankImportFileService implements ImportFileService {
-
-    UserService userService;
 
     @Override
     public File findFileFromPath(String path) {
@@ -55,8 +55,6 @@ public class NubankImportFileService implements ImportFileService {
     @Override
     public List<FinancialTransaction> createFinancialTransactions(OFXFile ofx) {
         List<FinancialTransaction> financialTransactions = new ArrayList<>();
-        User user = new User();
-        user.setUuid("1");
         List<StmtTrn> transactionsFromFile = ofx.creditCardMsgsRsV1.ccStmtTrnRs.ccStmtRs.bankTranList.stmtTrnList;
         for (StmtTrn ofxTransaciton : transactionsFromFile) {
             FinancialTransaction transaction = new FinancialTransaction();
@@ -66,7 +64,6 @@ public class NubankImportFileService implements ImportFileService {
             transaction.setValue(Double.valueOf(ofxTransaciton.trnAmt));
             transaction.setDescription(ofxTransaciton.memo);
             transaction.setTransactionTime(OFXDataHelper.getDate(ofxTransaciton.dtPosted));
-            transaction.setUser(user);
             financialTransactions.add(transaction);
         }
 
