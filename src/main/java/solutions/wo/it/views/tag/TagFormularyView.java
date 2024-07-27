@@ -1,8 +1,10 @@
 package solutions.wo.it.views.tag;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -16,13 +18,8 @@ import solutions.wo.it.services.TagService;
 public class TagFormularyView extends VerticalLayout {
 
     private final TagService service;
-    private Binder<Tag> binder = new Binder<>(Tag.class);
-    private Tag bean = new Tag();
-    private Grid<Tag> grid;
-    private TextField tag;
-    private TextField description;
-    private TextArea keywords;
-    private Button saveButton;
+    private final Binder<Tag> binder = new Binder<>(Tag.class);
+    private final Grid<Tag> grid;
     private Button deleteButton;
 
     public TagFormularyView(TagService service) {
@@ -35,6 +32,7 @@ public class TagFormularyView extends VerticalLayout {
         grid.setItems(this.service.getAll());
         grid.asSingleSelect().addValueChangeListener(event -> {
             this.setTag(event.getValue());
+            deleteButton.setEnabled(true);
         });
 
         HorizontalLayout keysLayout = new HorizontalLayout();
@@ -43,14 +41,14 @@ public class TagFormularyView extends VerticalLayout {
         FormLayout formularyLayout = new FormLayout();
         formularyLayout.setSizeFull();
 
-        tag = new TextField();
+        TextField tag = new TextField();
         tag.setSizeFull();
         tag.setLabel("Tag");
         tag.setClearButtonVisible(true);
         tag.setPrefixComponent(VaadinIcon.TAG.create());
         binder.forField(tag).bind(Tag::getName, Tag::setName);
 
-        description = new TextField();
+        TextField description = new TextField();
         description.setSizeFull();
         description.setLabel("Descrição");
         description.setClearButtonVisible(true);
@@ -59,7 +57,7 @@ public class TagFormularyView extends VerticalLayout {
 
         keysLayout.add(tag, description);
 
-        keywords = new TextArea();
+        TextArea keywords = new TextArea();
         keywords.setSizeFull();
         keywords.setLabel("Keywords para vincular na importação (separado por vírgulas)");
         keywords.setClearButtonVisible(true);
@@ -69,13 +67,20 @@ public class TagFormularyView extends VerticalLayout {
         formularyLayout.add(keysLayout);
 
         HorizontalLayout horizontalLayoutButtons = new HorizontalLayout();
-        saveButton = new Button("Salvar", event -> save());
-        deleteButton = new Button("Excluir", event -> delete());
+        Button saveButton = new Button("Salvar", new Icon(VaadinIcon.COPY), event -> save());
 
-        horizontalLayoutButtons.add(deleteButton, saveButton);
-        horizontalLayoutButtons.setAlignItems(Alignment.END);
+        deleteButton = new Button("Excluir", new Icon(VaadinIcon.TRASH),  event -> delete());
+        deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        deleteButton.setEnabled(false);
+
+        Button clearButton = new Button("Limpar", new Icon(), event -> clear());
+
+        horizontalLayoutButtons.add(clearButton, deleteButton, saveButton);
 
         add(grid, formularyLayout, keywords, horizontalLayoutButtons);
+        setAlignSelf(Alignment.END, horizontalLayoutButtons);
+
+        Tag bean = new Tag();
         this.binder.setBean(bean);
         this.binder.bindInstanceFields(this);
     }
@@ -97,6 +102,7 @@ public class TagFormularyView extends VerticalLayout {
         try {
             Tag tag = binder.getBean();
             service.delete(tag);
+            deleteButton.setEnabled(false);
             clearFields();
             Notification.show("Registro excluído com sucesso!");
         } catch (Exception exception) {
@@ -104,6 +110,12 @@ public class TagFormularyView extends VerticalLayout {
         } finally {
             refresh();
         }
+    }
+
+    private void clear() {
+        binder.getBean().setName("");
+        binder.getBean().setDescription("");
+        binder.getBean().setKeywords("");
     }
 
     private void setTag(Tag tag) {

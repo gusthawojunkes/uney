@@ -1,6 +1,5 @@
 package solutions.wo.it.services;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import solutions.wo.it.data.core.exceptions.InvalidBeanException;
 import solutions.wo.it.database.entities.Tag;

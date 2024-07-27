@@ -11,10 +11,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Entity
-@Table(name = "tag")
-@Getter
-@Setter
+@Getter @Setter
+@Entity @Table(name = "tag")
 public class Tag extends AbstractEntity {
 
     @Column(unique = true, nullable = false)
@@ -28,6 +26,9 @@ public class Tag extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable = false)
     private User user;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<FinancialTransaction> transactions = new HashSet<>();
 
     public Set<String> getKeywordsSet() {
         if (StringUtils.isEmpty(this.keywords)) return new HashSet<>();

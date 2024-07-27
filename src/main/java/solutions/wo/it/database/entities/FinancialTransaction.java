@@ -8,7 +8,10 @@ import solutions.wo.it.data.core.enums.TransactionType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @Entity @Table(name = "financial_transaction")
@@ -34,8 +37,13 @@ public class FinancialTransaction extends AbstractEntity {
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable = false)
     private User user;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Tag> tags
+    @ManyToMany
+    @JoinTable(
+        name = "financial_transaction_tag",
+        joinColumns = @JoinColumn(name = "financial_transaction_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags = new ArrayList<>();
 
     public String getFormattedTransactionTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
